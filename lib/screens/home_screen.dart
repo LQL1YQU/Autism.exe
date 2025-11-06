@@ -24,11 +24,11 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisSpacing: 16,
           crossAxisSpacing: 16,
           itemBuilder: (context, index) {
-            return const NoteItem(
+            return NoteItem(
               date: "2022-01-01",
               title: "Note 1",
               content: "Content 1",
-              id: "1",
+              id: index.toString(),
             );
           },
         ),
