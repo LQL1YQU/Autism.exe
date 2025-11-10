@@ -27,7 +27,8 @@ class _NoteItemState extends State<NoteItem> {
       onTap: () async {
         final pref = await SharedPreferences.getInstance();
         await pref.setString("note_id", widget.id);
-        print("note_id: ${widget.id}");
+        var note_id = await pref.getString("note_id");
+        print("note_id: $note_id");
         await Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => NoteScreen(id: widget.id)),

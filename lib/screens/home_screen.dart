@@ -3,6 +3,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:note/components/app_bar_main.dart';
 import 'package:note/utils/constants.dart';
 import 'package:note/components/note_item.dart';
+import 'package:note/screens/create_note_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -32,6 +33,17 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           },
         ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const CreateNoteScreen()),
+          );
+        },
+        icon: const Icon(Icons.add),
+        label: const Text('Create Note'),
       ),
     );
   }
