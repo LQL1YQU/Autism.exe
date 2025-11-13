@@ -4,6 +4,7 @@ import 'package:note/components/app_bar_main.dart';
 import 'package:note/utils/constants.dart';
 import 'package:note/components/note_item.dart';
 import 'package:note/screens/create_note_screen.dart';
+import 'package:note/data/notes_store.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,17 +20,26 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBarMain(username: "Username", avatarUrl: defaultAvatarUrl),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-        child: MasonryGridView.count(
-          crossAxisCount: 2,
-          itemCount: 10,
-          mainAxisSpacing: 16,
-          crossAxisSpacing: 16,
-          itemBuilder: (context, index) {
-            return NoteItem(
-              date: "2022-01-01",
-              title: "Note 1",
-              content: "Content 1",
-              id: index.toString(),
+        child: ValueListenableBuilder<List<Note>>(
+          valueListenable: NotesStore.instance.notes,
+          builder: (context, list, _) {
+            if (list.isEmpty) {
+              return const Center(child: Text('No notes yet. Tap + to create.'));
+            }
+            return MasonryGridView.count(
+              crossAxisCount: 2,
+              itemCount: list.length,
+              mainAxisSpacing: 16,
+              crossAxisSpacing: 16,
+              itemBuilder: (context, index) {
+                final n = list[index];
+                return NoteItem(
+                  date: n.date.split('T').first,
+                  title: n.title,
+                  content: n.content,
+                  id: n.id,
+                );
+              },
             );
           },
         ),

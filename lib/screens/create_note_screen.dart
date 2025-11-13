@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:note/components/app_bar_navigation_back.dart';
+import 'package:note/data/notes_store.dart';
 
 class CreateNoteScreen extends StatefulWidget {
   const CreateNoteScreen({super.key});
@@ -75,12 +76,16 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
         onPressed: () {
           final isValid = _formKey.currentState?.validate() ?? false;
           if (!isValid) return;
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(const SnackBar(content: Text('Note saved')));
-          print(
-            "Save: ${'title=' + _titleController.text.trim()} | ${'content=' + _contentController.text.trim()}",
-          );
+          NotesStore.instance
+              .addNote(
+                title: _titleController.text,
+                content: _contentController.text,
+              )
+              .then((_) {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(const SnackBar(content: Text('Note saved')));
+            Navigator.pop(context);
+          });
         },
         icon: const Icon(Icons.create),
         label: const Text('Save Note'),

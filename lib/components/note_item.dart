@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:note/screens/note_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class NoteItem extends StatefulWidget {
   const NoteItem({
@@ -25,10 +24,6 @@ class _NoteItemState extends State<NoteItem> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        final pref = await SharedPreferences.getInstance();
-        await pref.setString("note_id", widget.id);
-        var note_id = await pref.getString("note_id");
-        print("note_id: $note_id");
         await Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => NoteScreen(id: widget.id)),
